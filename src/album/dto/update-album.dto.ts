@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateAlbumDto } from './create-album.dto';
-import { IsInt, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsInt, IsString } from 'class-validator';
+import { IsUUIDOrNull } from 'src/validators/isUUIDOrNull.decorator';
 
 export class UpdateAlbumDto extends PartialType(CreateAlbumDto) {
   @IsString()
@@ -9,5 +10,6 @@ export class UpdateAlbumDto extends PartialType(CreateAlbumDto) {
   @IsInt()
   year: number;
 
+  @IsUUIDOrNull()
   artistId: string; 
 }

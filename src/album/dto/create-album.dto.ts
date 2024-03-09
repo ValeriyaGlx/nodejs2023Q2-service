@@ -1,4 +1,5 @@
-import { IsInt, IsNotEmpty, IsString, IsUUID } from "class-validator";
+import { IsInt, IsString } from "class-validator";
+import { IsUUIDOrNull } from "../../validators/isUUIDOrNull.decorator";
 
 export class CreateAlbumDto {
   @IsString()
@@ -7,5 +8,6 @@ export class CreateAlbumDto {
   @IsInt()
   year: number;
 
-  artistId: string; 
+  @IsUUIDOrNull()
+  artistId: string | null; 
 }
