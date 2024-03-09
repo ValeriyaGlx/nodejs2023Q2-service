@@ -1,26 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
+import { db } from 'src/database/database';
+import { Album } from './entities/album.entity';
+import { ERRORS } from 'src/helpers/constants';
+import { Entities } from 'src/helpers/types';
 
 @Injectable()
 export class AlbumService {
+  constructor (private db: db){}
+
   create(createAlbumDto: CreateAlbumDto) {
-    return 'This action adds a new album';
+    const { name, artistId, year } = createAlbumDto;
+    const album = new Album(name, year, artistId);
+
+    this.db.albums.push(album);
+    
+    return album;
   }
 
   findAll() {
-    return `This action returns all album`;
+    return this.db.albums;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} album`;
+  findOne(id: string) {
+    const album = this.db.albums.find((album) => album.id === id);
+    
+    if(!album) {
+      throw new NotFoundException(ERRORS.entityNotFound(Entities.Album, id));
+    }
+
+    return album;
   }
 
-  update(id: number, updateAlbumDto: UpdateAlbumDto) {
-    return `This action updates a #${id} album`;
+  update(id: string, updateAlbumDto: UpdateAlbumDto) {
+    const { name, artistId, year } = updateAlbumDto;
+
+    const album = this.db.albums.find((album) => album.id === id);
+    
+    if(!album) {
+      throw new NotFoundException(ERRORS.entityNotFound(Entities.Album, id));
+    }
+
+    album.updateAlbum(name, year, artistId);
+
+    return album;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} album`;
+  remove(id: string) {
+    const index = this.db.albums.findIndex((album) => album.id === id);
+
+    if(index === -1) {
+      throw new NotFoundException(ERRORS.entityNotFound(Entities.Album, id));
+    }
+
+    const deletedAlbum = this.db.albums.splice(index, 1);
+
+    return deletedAlbum;
   }
 }

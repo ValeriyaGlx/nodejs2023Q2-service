@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { db } from 'src/database/database';
 import { User } from './entities/user.entity';
 import { ERRORS } from 'src/helpers/constants';
+import { Entities } from 'src/helpers/types';
 
 @Injectable()
 export class UserService {
@@ -25,7 +26,7 @@ export class UserService {
   findOne(id: string) {
     const user = this.db.users.find((user) => user.id === id);
     if(!user) {
-      throw new NotFoundException(ERRORS.userNotFound(id));
+      throw new NotFoundException(ERRORS.entityNotFound(Entities.User, id));
     }
     return user;
   }
@@ -36,7 +37,7 @@ export class UserService {
     const user = this.db.users.find((user) => user.id === id);
 
     if(!user) {
-      throw new NotFoundException(ERRORS.userNotFound(id));
+      throw new NotFoundException(ERRORS.entityNotFound(Entities.User, id));
     }
 
     if (user.password !== oldPassword) {
@@ -51,7 +52,7 @@ export class UserService {
     const index = this.db.users.findIndex((usr) => usr.id === id);
 
     if(index === -1) {
-      throw new NotFoundException(ERRORS.userNotFound(id));
+      throw new NotFoundException(ERRORS.entityNotFound(Entities.User, id));
     }
 
     const deletedUser = this.db.users.splice(index, 1);
