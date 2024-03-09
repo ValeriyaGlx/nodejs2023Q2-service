@@ -15,7 +15,7 @@ export class AlbumService {
     const album = new Album(name, year, artistId);
 
     this.db.albums.push(album);
-    
+
     return album;
   }
 
@@ -53,6 +53,9 @@ export class AlbumService {
     if(index === -1) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.Album, id));
     }
+
+    const track = this.db.tracks.find((track) => track.albumId === id);
+    if (track) track.deleteAlbum();
 
     const deletedAlbum = this.db.albums.splice(index, 1);
 

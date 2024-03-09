@@ -15,9 +15,9 @@ export class Album {
   }
 
   updateAlbum(name: string, year: number, artistId: string) {
-    this.name = name;
-    this.year = year;
-    this.artistId = artistId;
+    this.name = name || this.name;
+    this.year = year || this.year;
+    this.artistId = artistId !== undefined ? artistId : this.artistId;
   }
 
   deleteArtist() {

@@ -54,6 +54,9 @@ export class ArtistService {
     const album = this.db.albums.find((album) => album.artistId === id);
     if (album) album.deleteArtist();
 
+    const track = this.db.tracks.find((track) => track.artistId === id);
+    if (track) track.deleteArtist();
+
     
     const deletedArtist = this.db.artists.splice(index, 1);
     
