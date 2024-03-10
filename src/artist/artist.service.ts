@@ -4,7 +4,7 @@ import { UpdateArtistDto } from './dto/update-artist.dto';
 import { db } from 'src/database/database';
 import { Artist } from './entities/artist.entity';
 import { ERRORS } from 'src/helpers/constants';
-import { Entities } from 'src/helpers/types';
+import { Entities, Favorites } from 'src/helpers/types';
 
 @Injectable()
 export class ArtistService {
@@ -57,7 +57,8 @@ export class ArtistService {
     const track = this.db.tracks.find((track) => track.artistId === id);
     if (track) track.deleteArtist();
 
-    
+    this.db.deleteFavs(id, Favorites.Artists);
+  
     const deletedArtist = this.db.artists.splice(index, 1);
     
     return deletedArtist;

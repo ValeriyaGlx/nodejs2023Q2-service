@@ -12,12 +12,16 @@ export class FavoritesService {
     return this.db.favorites;
   }
 
-  create(id: string, type: Favorites) {
+  create(id: string, type: Favorites, typeId: FavoritesIds) {
     const entity = this.db[type].find((entity) => entity.id === id);
 
     if(!entity) {
       throw new UnprocessableEntityException(ERRORS.entityNotFound(type, id));
     }
+
+    const entityExistInFavs = this.db.favorites[type].some((entity) => entity[typeId] === id);
+
+    if (entityExistInFavs) return undefined;
 
     this.db.favorites[type].push(entity as any);
     return entity;

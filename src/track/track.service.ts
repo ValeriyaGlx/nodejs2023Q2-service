@@ -4,7 +4,7 @@ import { UpdateTrackDto } from './dto/update-track.dto';
 import { db } from 'src/database/database';
 import { Track } from './entities/track.entity';
 import { ERRORS } from 'src/helpers/constants';
-import { Entities } from 'src/helpers/types';
+import { Entities, Favorites } from 'src/helpers/types';
 
 @Injectable()
 export class TrackService {
@@ -52,6 +52,8 @@ export class TrackService {
     if(index === -1) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.Track, id));
     }
+
+    this.db.deleteFavs(id, Favorites.Tracks);
 
     const deletedTrack = this.db.tracks.splice(index, 1);
 

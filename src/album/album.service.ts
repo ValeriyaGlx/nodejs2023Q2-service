@@ -4,7 +4,7 @@ import { UpdateAlbumDto } from './dto/update-album.dto';
 import { db } from 'src/database/database';
 import { Album } from './entities/album.entity';
 import { ERRORS } from 'src/helpers/constants';
-import { Entities } from 'src/helpers/types';
+import { Entities, Favorites } from 'src/helpers/types';
 
 @Injectable()
 export class AlbumService {
@@ -56,6 +56,8 @@ export class AlbumService {
 
     const track = this.db.tracks.find((track) => track.albumId === id);
     if (track) track.deleteAlbum();
+
+    this.db.deleteFavs(id, Favorites.Albums);
 
     const deletedAlbum = this.db.albums.splice(index, 1);
 

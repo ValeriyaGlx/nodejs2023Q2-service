@@ -14,19 +14,19 @@ export class FavoritesController {
   @Post('track/:id')
   @HttpCode(201)
   createTrack(@Param('id', ParseUUIDPipe) id: string) {
-    return this.favoritesService.create(id, Favorites.Tracks);
+    return this.favoritesService.create(id, Favorites.Tracks, FavoritesIds.TrackId);
   }
 
   @Post('album/:id')
   @HttpCode(201)
   createAlbum(@Param('id', ParseUUIDPipe) id: string) {
-    return this.favoritesService.create(id, Favorites.Albums);
+    return this.favoritesService.create(id, Favorites.Albums, FavoritesIds.AlbumId);
   }
 
   @Post('artist/:id')
   @HttpCode(201)
   createArtist(@Param('id', ParseUUIDPipe) id: string) {
-    return this.favoritesService.create(id, Favorites.Artists);
+    return this.favoritesService.create(id, Favorites.Artists, FavoritesIds.ArtistId);
   }
 
   @Delete('track/:id')
