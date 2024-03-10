@@ -1,10 +1,8 @@
-import * as YAML from 'yamljs';
-import * as fs from 'fs'
-import * as path from 'path';
+import { DocumentBuilder } from '@nestjs/swagger';
 
-const docs = fs.readFileSync(path.resolve(__dirname, '../../doc/api.yaml'), 'utf-8');
-
-const document = YAML.parse(docs);
-
-export const config = document;
+export const config = new DocumentBuilder()
+.setTitle('Home Library Service')
+.setDescription('Home music library service')
+.setVersion('1.0.0')
+.build();
 
