@@ -42,7 +42,7 @@ export class UserService {
     }
 
     if (user.password !== oldPassword) {
-      throw new ForbiddenException(`You passed the wrong passwond`);
+      throw new ForbiddenException(ERRORS.wrongRassworrd);
     }
 
     user.updatePassword(newPassword);
