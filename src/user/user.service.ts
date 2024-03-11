@@ -1,20 +1,21 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { db } from 'src/database/database';
+import { db as dbType } from 'src/database/database';
+
 import { User } from './entities/user.entity';
 import { ERRORS } from 'src/helpers/constants';
 import { Entities } from 'src/helpers/types';
 
 @Injectable()
 export class UserService {
-  constructor (private db: db){}
+  constructor(private db: dbType) {}
 
   create(createUserDto: CreateUserDto) {
     const { login, password } = createUserDto;
 
     const user = new User(login, password);
- 
+
     this.db.users.push(user);
     return user;
   }
@@ -25,7 +26,7 @@ export class UserService {
 
   findOne(id: string) {
     const user = this.db.users.find((user) => user.id === id);
-    if(!user) {
+    if (!user) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.User, id));
     }
     return user;
@@ -36,7 +37,7 @@ export class UserService {
 
     const user = this.db.users.find((user) => user.id === id);
 
-    if(!user) {
+    if (!user) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.User, id));
     }
 
@@ -51,7 +52,7 @@ export class UserService {
   remove(id: string) {
     const index = this.db.users.findIndex((usr) => usr.id === id);
 
-    if(index === -1) {
+    if (index === -1) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.User, id));
     }
 
@@ -61,6 +62,6 @@ export class UserService {
   }
 
   isUserExist(login: string) {
-   return !!this.db.users.find((usr) => usr.login === login);
+    return !!this.db.users.find((usr) => usr.login === login);
   }
 }

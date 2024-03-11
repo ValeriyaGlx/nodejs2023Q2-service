@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
-import { db } from 'src/database/database';
+import { db as dbType } from 'src/database/database';
 import { Album } from './entities/album.entity';
 import { ERRORS } from 'src/helpers/constants';
 import { Entities, Favorites } from 'src/helpers/types';
 
 @Injectable()
 export class AlbumService {
-  constructor (private db: db){}
+  constructor(private db: dbType) {}
 
   create(createAlbumDto: CreateAlbumDto) {
     const { name, artistId, year } = createAlbumDto;
@@ -25,8 +25,8 @@ export class AlbumService {
 
   findOne(id: string) {
     const album = this.db.albums.find((album) => album.id === id);
-    
-    if(!album) {
+
+    if (!album) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.Album, id));
     }
 
@@ -37,8 +37,8 @@ export class AlbumService {
     const { name, artistId, year } = updateAlbumDto;
 
     const album = this.db.albums.find((album) => album.id === id);
-    
-    if(!album) {
+
+    if (!album) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.Album, id));
     }
 
@@ -50,7 +50,7 @@ export class AlbumService {
   remove(id: string) {
     const index = this.db.albums.findIndex((album) => album.id === id);
 
-    if(index === -1) {
+    if (index === -1) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.Album, id));
     }
 

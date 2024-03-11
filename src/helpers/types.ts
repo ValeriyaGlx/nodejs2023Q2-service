@@ -8,11 +8,11 @@ export enum Entities {
 export enum Favorites {
   Tracks = 'tracks',
   Albums = 'albums',
-  Artists = 'artists'
+  Artists = 'artists',
 }
 
 export enum FavoritesIds {
   TrackId = 'trackId',
   AlbumId = 'albumId',
-  ArtistId = 'artistId'
+  ArtistId = 'artistId',
 }

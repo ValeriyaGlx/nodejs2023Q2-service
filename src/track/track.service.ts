@@ -1,17 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { db } from 'src/database/database';
+import { db as dbType } from 'src/database/database';
 import { Track } from './entities/track.entity';
 import { ERRORS } from 'src/helpers/constants';
 import { Entities, Favorites } from 'src/helpers/types';
 
 @Injectable()
 export class TrackService {
-  constructor (private db: db){}
+  constructor(private db: dbType) {}
 
   create(createTrackDto: CreateTrackDto) {
-    const {name, artistId, albumId, duration} = createTrackDto;
+    const { name, artistId, albumId, duration } = createTrackDto;
     const track = new Track(name, artistId, albumId, duration);
 
     this.db.tracks.push(track);
@@ -24,8 +24,8 @@ export class TrackService {
 
   findOne(id: string) {
     const track = this.db.tracks.find((track) => track.id === id);
-    
-    if(!track) {
+
+    if (!track) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.Track, id));
     }
 
@@ -34,10 +34,10 @@ export class TrackService {
 
   update(id: string, updateTrackDto: UpdateTrackDto) {
     const { name, artistId, albumId, duration } = updateTrackDto;
-    
+
     const track = this.db.tracks.find((track) => track.id === id);
-    
-    if(!track) {
+
+    if (!track) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.Track, id));
     }
 
@@ -49,7 +49,7 @@ export class TrackService {
   remove(id: string) {
     const index = this.db.tracks.findIndex((track) => track.id === id);
 
-    if(index === -1) {
+    if (index === -1) {
       throw new NotFoundException(ERRORS.entityNotFound(Entities.Track, id));
     }
 

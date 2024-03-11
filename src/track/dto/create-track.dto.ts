@@ -1,5 +1,5 @@
-import { IsInt, IsString } from "class-validator";
-import { IsUUIDOrNull } from "src/validators/isUUIDOrNull.decorator";
+import { IsInt, IsString } from 'class-validator';
+import { IsUUIDOrNull } from 'src/validators/isUUIDOrNull.decorator';
 
 export class CreateTrackDto {
   @IsString()

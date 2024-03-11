@@ -11,5 +11,5 @@ export class UpdateAlbumDto extends PartialType(CreateAlbumDto) {
   year: number;
 
   @IsUUIDOrNull()
-  artistId: string; 
+  artistId: string;
 }
